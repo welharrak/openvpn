@@ -97,7 +97,7 @@ telnet 10.4.0.1 50000
 ![foto2](./aux/2.png)
 
 ## Exemple 4: Túnel Network to Network
-### Aquesta pràctica es com l'anterior però amb dues ordes només
+### En aquesta pràctica s'ha de fer el que s'ha fet anteriorment (exemple 3), afegint-hi dues ordes:
 - Primer de tot, ens hem d'asegurar que el IP forwarding està activat als 2 host:
 ```
 echo 1 > /proc/sys/net/ipv4/ip_forward
