@@ -120,4 +120,4 @@ route add −net 10.0.1.0 netmask 255.255.255.0 gw 10.4.0.2
 
 - El que hem fet consisteix en dir a **host**, que si tota la seva
 xarxa local vol enviar dades a la xarxa del **client** ho ha de fer per el túnel VPN (en
-lloc de per el gw de internet).
+lloc de per el gw de internet). I viceversa.
