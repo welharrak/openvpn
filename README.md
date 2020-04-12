@@ -97,3 +97,27 @@ telnet 10.4.0.1 50000
 ![foto2](./aux/2.png)
 
 ## Exemple 4: Túnel Network to Network
+### Aquesta pràctica es com l'anterior però amb dues ordes només
+- Primer de tot, ens hem d'asegurar que el IP forwarding està activat als 2 host:
+```
+echo 1 > /proc/sys/net/ipv4/ip_forward
+```
+
+- I activar el TUN (packet forwarding through the firewall)
+```
+iptables −A FORWARD −i tun+ −j ACCEPT
+```
+
+1. Al servidor hem de fer:
+```
+route add −net 10.0.0.0 netmask 255.255.255.0 gw 10.4.0.1
+```
+
+2. Al client hem de fer:
+```
+route add −net 10.0.1.0 netmask 255.255.255.0 gw 10.4.0.2
+```
+
+- El que hem fet consisteix en dir a **host**, que si tota la seva
+xarxa local vol enviar dades a la xarxa del **client** ho ha de fer per el túnel VPN (en
+lloc de per el gw de internet).
