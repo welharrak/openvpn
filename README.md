@@ -69,3 +69,31 @@ authorityKeyIdentifier = keyid,issuer:always
 ```
 
 ## Exemple 3: Túnel Host to Host
+### Al server
+- Creem túnel:
+```
+[isx48144165@walid openvpn]$ sudo openvpn --remote 192.168.1.15 --dev tun1 --ifconfig 10.4.0.1 10.4.0.2 --tls-server --dh dh2048.pem --ca ca-crt.pem --cert vpnserver-crt.pem --key vpnserver-key.pem --reneg-sec 60
+```
+[foto1](./aux/1.png)
+
+### Al client
+- Creem túnel:
+```
+[isx48144165@walid openvpn]$ openvpn --remote 192.168.1.17 --dev tun1 --ifconfig 10.4.0.2 10.4.0.1 --tls-client --ca ca-crt.pem --cert vpnclient1-crt.pem --key vpnclient1-key.pem --reneg-sec 60
+```
+
+### Comprobacions
+1. Al server:
+```
+nc -kl 50000
+```
+
+2. Al client:
+```
+telnet 10.4.0.1 50000
+```
+
+- **Simulació: només mostra el resultat que s'hauria d'obtenir**
+[foto2](./aux/2.png)
+
+## Exemple 4: Túnel Network to Network
