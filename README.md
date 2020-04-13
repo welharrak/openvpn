@@ -150,7 +150,7 @@ WantedBy=multi-user.target
 [fedora@ip-172-31-25-205 ~]$ sudo systemctl daemon-reload
 [fedora@ip-172-31-25-205 ~]$ sudo systemctl start openvpn-server@server
 [fedora@ip-172-31-25-205 ~]$ sudo systemctl status openvpn-server@server
-● openvpn-server@server.service - OpenVPN local
+● openvpn-server@server.service - OpenVPN server
    Loaded: loaded (/usr/lib/systemd/system/openvpn-server@server.service; disabled; vendor preset: disabled)
    Active: active (running) since Mon 2020-04-13 15:32:35 UTC; 5min ago
   Process: 2538 ExecStart=/usr/sbin/openvpn --daemon --writepid /var/run/openvpn/server.pid --cd /etc/openvpn/server --config server.conf (code=exite>
@@ -198,16 +198,16 @@ WantedBy=multi-user.target
 [isx48144165@walid ~]$ sudo systemctl daemon-reload
 [isx48144165@walid ~]$ sudo systemctl start openvpn-client@client
 [isx48144165@walid ~]$ sudo systemctl status openvpn-client@client
-● openvpn-client@client.service - OpenVPN local
+● openvpn-client@client.service - OpenVPN client
    Loaded: loaded (/usr/lib/systemd/system/openvpn-client@client.service; disabled; vendor preset: disabled)
-   Active: active (running) since Mon 2020-04-13 17:32:41 CEST; 6min ago
+   Active: active (running) since Mon 2020-04-13 17:38:11 CEST; 4min ago
  Main PID: 6149 (openvpn)
     Tasks: 1 (limit: 4915)
    CGroup: /system.slice/system-openvpn\x2dclient.slice/openvpn-client@client.service
            └─6149 /usr/sbin/openvpn --daemon --writepid /var/run/openvpn/client.pid --cd /etc/openvpn/client --config client.conf
 
-Apr 13 17:38:01 walid openvpn[4665]: Incoming Data Channel: Cipher 'AES-256-GCM' initialized with 256 bit key
-Apr 13 17:38:01 walid openvpn[4665]: ROUTE_GATEWAY 192.168.1.1/255.255.255.0 IFACE=enp1s0 HWADDR=80:ce:62:d4:20:fd
+Apr 13 17:38:11 walid openvpn[4665]: Incoming Data Channel: Cipher 'AES-256-GCM' initialized with 256 bit key
+Apr 13 17:38:11 walid openvpn[4665]: ROUTE_GATEWAY 192.168.1.1/255.255.255.0 IFACE=enp1s0 HWADDR=80:ce:62:d4:20:fd
 Apr 13 17:38:11 walid openvpn[4665]: TUN/TAP device tun0 opened
 Apr 13 17:38:11 walid openvpn[4665]: TUN/TAP TX queue length set to 100
 Apr 13 17:38:11 walid openvpn[4665]: do_ifconfig, tt->did_ifconfig_ipv6_setup=0
