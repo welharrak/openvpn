@@ -72,15 +72,16 @@ authorityKeyIdentifier = keyid,issuer:always
 ### Al server
 - Creem túnel:
 ```
-[isx48144165@walid openvpn]$ sudo openvpn --remote 192.168.1.15 --dev tun1 --ifconfig 10.4.0.1 10.4.0.2 --tls-server --dh dh2048.pem --ca ca-crt.pem --cert vpnserver-crt.pem --key vpnserver-key.pem --reneg-sec 60
+[fedora@ip-172-31-25-205 openvpn]$ sudo openvpn --remote 37.14.86.93 --dev tun1 --ifconfig 10.4.0.1 10.4.0.2 --tls-server --dh dh2048.pem --ca ca-crt.pem --cert vpnserver-crt.pem --key vpnserver-key.pem --reneg-sec 60
 ```
 ![foto1](./aux/1.png)
 
 ### Al client
 - Creem túnel:
 ```
-[isx48144165@walid openvpn]$ openvpn --remote 192.168.1.17 --dev tun1 --ifconfig 10.4.0.2 10.4.0.1 --tls-client --ca ca-crt.pem --cert vpnclient1-crt.pem --key vpnclient1-key.pem --reneg-sec 60
+[isx48144165@walid openvpn]$ sudo openvpn --remote 35.177.24.194 --dev tun1 --ifconfig 10.4.0.2 10.4.0.1 --tls-client --ca ca-crt.pem --cert vpnclient1-crt.pem --key vpnclient1-key.pem --reneg-sec 60
 ```
+![foto2](./aux/2.png)
 
 ### Comprobacions
 1. Al server:
@@ -93,8 +94,8 @@ nc -kl 50000
 telnet 10.4.0.1 50000
 ```
 
-- **Simulació: només mostra el resultat que s'hauria d'obtenir**
-![foto2](./aux/2.png)
+- **Com podem veure, els dos hosts utilitzen el túnel per fer un chat privat**
+![foto3](./aux/3.png)
 
 ## Exemple 4: Túnel Network to Network
 ### En aquesta pràctica s'ha de fer el que s'ha fet anteriorment (exemple 3), afegint-hi dues ordes:
