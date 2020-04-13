@@ -147,10 +147,30 @@ WantedBy=multi-user.target
 
 4. Una vegada fet tot aixó, farà falta recarregar els daemon i iniciar el servei:
 ```
-[fedora@ip-172-31-25-205 system]$ sudo systemctl daemon-reload
-[fedora@ip-172-31-25-205 system]$ sudo systemctl start openvpn-server@server
+[fedora@ip-172-31-25-205 ~]$ sudo systemctl daemon-reload
+[fedora@ip-172-31-25-205 ~]$ sudo systemctl start openvpn-server@server
+[fedora@ip-172-31-25-205 ~]$ sudo systemctl status openvpn-server@server
+● openvpn-server@server.service - OpenVPN local
+   Loaded: loaded (/usr/lib/systemd/system/openvpn-server@server.service; disabled; vendor preset: disabled)
+   Active: active (running) since Mon 2020-04-13 15:32:35 UTC; 5min ago
+  Process: 2538 ExecStart=/usr/sbin/openvpn --daemon --writepid /var/run/openvpn/server.pid --cd /etc/openvpn/server --config server.conf (code=exite>
+ Main PID: 2539 (openvpn)
+    Tasks: 1 (limit: 1142)
+   Memory: 1.3M
+   CGroup: /system.slice/system-openvpn\x2dserver.slice/openvpn-server@server.service
+           └─2539 /usr/sbin/openvpn --daemon --writepid /var/run/openvpn/server.pid --cd /etc/openvpn/server --config server.conf
+
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: /sbin/ip addr add dev tun0 local 10.8.0.1 peer 10.8.0.2
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: /sbin/ip route add 10.8.0.0/24 via 10.8.0.2
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: Could not determine IPv4/IPv6 protocol. Using AF_INET
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: Socket Buffers: R=[212992->212992] S=[212992->212992]
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: UDPv4 link local (bound): [AF_INET][undef]:1194
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: UDPv4 link remote: [AF_UNSPEC]
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: MULTI: multi_init called, r=256 v=256
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: IFCONFIG POOL: base=10.8.0.4 size=62, ipv6=0
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: IFCONFIG POOL LIST
+Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: Initialization Sequence Completed
 ```
-![foto5](./aux/5.png)
 
 ### Al client
 1. Primer de tot, hem de copiar els certificats del client i la clau del client a **/etc/openvpn/client**.
@@ -174,3 +194,26 @@ WantedBy=multi-user.target
 ```
 
 4. Una vegada fet tot aixó, farà falta recarregar els daemon i iniciar el servei:
+```
+[isx48144165@walid ~]$ sudo systemctl daemon-reload
+[isx48144165@walid ~]$ sudo systemctl start openvpn-client@client
+[isx48144165@walid ~]$ sudo systemctl status openvpn-client@client
+● openvpn-client@client.service - OpenVPN local
+   Loaded: loaded (/usr/lib/systemd/system/openvpn-client@client.service; disabled; vendor preset: disabled)
+   Active: active (running) since Mon 2020-04-13 17:32:41 CEST; 6min ago
+ Main PID: 6149 (openvpn)
+    Tasks: 1 (limit: 4915)
+   CGroup: /system.slice/system-openvpn\x2dclient.slice/openvpn-client@client.service
+           └─6149 /usr/sbin/openvpn --daemon --writepid /var/run/openvpn/client.pid --cd /etc/openvpn/client --config client.conf
+
+Apr 13 17:38:01 walid openvpn[4665]: Incoming Data Channel: Cipher 'AES-256-GCM' initialized with 256 bit key
+Apr 13 17:38:01 walid openvpn[4665]: ROUTE_GATEWAY 192.168.1.1/255.255.255.0 IFACE=enp1s0 HWADDR=80:ce:62:d4:20:fd
+Apr 13 17:38:11 walid openvpn[4665]: TUN/TAP device tun0 opened
+Apr 13 17:38:11 walid openvpn[4665]: TUN/TAP TX queue length set to 100
+Apr 13 17:38:11 walid openvpn[4665]: do_ifconfig, tt->did_ifconfig_ipv6_setup=0
+Apr 13 17:38:11 walid openvpn[4665]: /sbin/ip link set dev tun0 up mtu 1500
+Apr 13 17:38:11 walid openvpn[4665]: /sbin/ip addr add dev tun0 local 10.8.0.6 peer 10.8.0.5
+Apr 13 17:38:11 walid openvpn[4665]: /sbin/ip route add 10.8.0.1/24 via 10.8.0.5
+Apr 13 17:38:11 walid openvpn[4665]: WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Apr 13 17:38:11 walid openvpn[4665]: Initialization Sequence Completed
+```
