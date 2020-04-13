@@ -217,3 +217,10 @@ Apr 13 17:38:11 walid openvpn[4665]: /sbin/ip route add 10.8.0.1/24 via 10.8.0.5
 Apr 13 17:38:11 walid openvpn[4665]: WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
 Apr 13 17:38:11 walid openvpn[4665]: Initialization Sequence Completed
 ```
+
+### Comprobacions
+- Ping de server a client:
+![foto4](./aux/4.png)
+
+- Ping de client a server:
+![foto4](./aux/4.png)
