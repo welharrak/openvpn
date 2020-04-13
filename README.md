@@ -223,4 +223,4 @@ Apr 13 17:38:11 walid openvpn[4665]: Initialization Sequence Completed
 ![foto4](./aux/4.png)
 
 - Ping de client a server:  
-![foto4](./aux/4.png)
+![foto5](./aux/5.png)
