@@ -129,7 +129,7 @@ lloc de per el gw de internet). I viceversa.
 
 2. Seguidament, hem de crear l'archiu de configuració a la mateixa ruta: [server.conf](./server/server.conf).
 
-3. 'Crear' el servei a **/usr/lib/systemd/system**: **openvpn-server@server.service**:
+3. 'Crear' el daemon a **/usr/lib/systemd/system**: **openvpn-server@server.service**:
 ```
 [Unit]
 Description=OpenVPN server
@@ -177,7 +177,7 @@ Apr 13 15:32:35 ip-172-31-25-205.eu-west-2.compute.internal openvpn[2539]: Initi
 
 2. Seguidament, hem de crear l'archiu de configuració a la mateixa ruta: [client.conf](./client/client.conf).
 
-3. 'Crear' el servei a **/usr/lib/systemd/system**: **openvpn-client@client.service**:
+3. 'Crear' el daemon a **/usr/lib/systemd/system**: **openvpn-client@client.service**:
 ```
 [Unit]
 Description=OpenVPN client
