@@ -68,7 +68,7 @@ authorityKeyIdentifier = keyid,issuer:always
 [isx48144165@walid openvpn]$ openssl x509 -CAkey ca-key.pem -CA ca-crt.pem -req -in vpnclient1-req.pem -days 365 -CAcreateserial -extfile ext.client.conf -out vpnclient1-crt.pem
 ```
 
-## Exemple 3: Túnel Host to Host
+## Exemple 3: Túnel Host to Host amb certificats propis
 ### Al server
 - Creem túnel:
 ```
@@ -97,7 +97,7 @@ telnet 10.4.0.1 50000
 - **Com podem veure, els dos hosts utilitzen el túnel per fer un chat privat**
 ![foto3](./aux/3.png)
 
-## Exemple 4: Túnel Network to Network
+## Exemple 4: Túnel Network to Network amb certificats propis
 ### En aquesta pràctica s'ha de fer el que s'ha fet anteriorment (exemple 3), afegint-hi dues ordes:
 - Primer de tot, ens hem d'asegurar que el IP forwarding està activat als 2 host:
 ```
@@ -106,19 +106,71 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 - I activar el TUN (packet forwarding through the firewall)
 ```
-iptables −A FORWARD −i tun+ −j ACCEPT
+iptables -A FORWARD -i tun+ -j ACCEPT
 ```
 
 1. Al servidor hem de fer:
 ```
-route add −net 10.0.0.0 netmask 255.255.255.0 gw 10.4.0.1
+[fedora@ip-172-31-25-205 ~]$ sudo route add -net 10.0.0.0 netmask 255.255.255.0 gw 10.4.0.1
 ```
 
 2. Al client hem de fer:
 ```
-route add −net 10.0.1.0 netmask 255.255.255.0 gw 10.4.0.2
+[isx48144165@walid openvpn]$ sudo route add -net 10.0.1.0 netmask 255.255.255.0 gw 10.4.0.2
 ```
 
 - El que hem fet consisteix en dir a **host**, que si tota la seva
 xarxa local vol enviar dades a la xarxa del **client** ho ha de fer per el túnel VPN (en
 lloc de per el gw de internet). I viceversa.
+
+## OpenVPN com a servei
+### Al server
+1. Primer de tot, hem de copiar els certificats del server, la clau del server i el dh2048.pem a **/etc/openvpn/server**.
+
+2. Seguidament, hem de crear l'archiu de configuració a la mateixa ruta: [server.conf](./server/server.conf).
+
+3. Crear el socket a **/usr/lib/systemd/system**: **openvpn-server@server.service**:
+```
+[Unit]
+Description=OpenVPN server
+After=network.target
+
+[Service]
+PrivateTmp=true
+Type=forking
+PIDFile=/var/run/openvpn/%i.pid
+ExecStart=/usr/sbin/openvpn --daemon --writepid /var/run/openvpn/%i.pid --cd /etc/openvpn/server --config %i.conf
+
+[Install]
+WantedBy=multi-user.target
+```
+
+4. Una vegada fet tot aixó, farà falta recarregar els daemon i iniciar el servei:
+```
+[fedora@ip-172-31-25-205 system]$ sudo systemctl daemon-reload
+[fedora@ip-172-31-25-205 system]$ sudo systemctl start openvpn-server@server
+```
+![foto5](./aux/5.png)
+
+### Al client
+1. Primer de tot, hem de copiar els certificats del client i la clau del client a **/etc/openvpn/client**.
+
+2. Seguidament, hem de crear l'archiu de configuració a la mateixa ruta: [client.conf](./client/client.conf).
+
+3. Crear el socket a **/usr/lib/systemd/system**: **openvpn-client@client.service**:
+```
+[Unit]
+Description=OpenVPN client
+After=network.target
+
+[Service]
+PrivateTmp=true
+Type=forking
+PIDFile=/var/run/openvpn/%i.pid
+ExecStart=/usr/sbin/openvpn --daemon --writepid /var/run/openvpn/%i.pid --cd /etc/openvpn/client --config %i.conf
+
+[Install]
+WantedBy=multi-user.target
+```
+
+4. Una vegada fet tot aixó, farà falta recarregar els daemon i iniciar el servei:
